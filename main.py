@@ -16,7 +16,7 @@ class App:
     def update(self):
         self.mode7.update()
         self.player_car.update()
-        self.clock.tick()
+        self.clock.tick(60)
         pg.display.set_caption(f"FPS: {self.clock.get_fps() : .1f}")
 
     def draw(self):

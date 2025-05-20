@@ -1,7 +1,7 @@
 import time
 import os
 import pygame as pg
-from settings import WIN_RES
+from settings import *
 
 ROAD_WIDTH = 300
 LANE_WIDTH = ROAD_WIDTH // 3
@@ -14,8 +14,8 @@ BLACK = (0, 0, 0)
 
 class PlayerCar:
     def __init__(self, screen_width, screen_height):
-        self.width = 40
-        self.height = 80
+        self.width = 200
+        self.height = 100
         self.color = BLUE
 
         self.lane_index = 2
@@ -26,7 +26,7 @@ class PlayerCar:
         self.friction = 0.05
 
         #self.x = (screen_width - self.width) // 2
-        self.y = screen_height - self.height - 25
+        self.y = screen_height / 2 + self.height / 2
 
         self.lane_positions = {
             1: (screen_width - ROAD_WIDTH) // 2 + (LANE_WIDTH // 2) - (self.width // 2),  # Lane 1 (left)
@@ -43,7 +43,7 @@ class PlayerCar:
         try:
             self.image = pg.image.load(os.path.join('assets', 'player_car.png')).convert_alpha()
             # Scale the image to match car dimensions
-            self.image = pg.transform.scale(self.image, (40, 80))
+            self.image = pg.transform.scale(self.image, (self.width, self.height))
         except pg.error as e:
             print(f"Couldn't load car image: {e}")
             # Fallback to rectangle if image loading fails

@@ -22,7 +22,7 @@ class Mode7:
 
         self.current_speed = 0.0
         self.min_speed = 0.0
-        self.max_speed = 10.0 * SPEED
+        self.max_speed = 5.0 * SPEED
         self.acceleration = 0.01 * SPEED
         self.deceleration = 0.03 * SPEED
 
@@ -39,14 +39,15 @@ class Mode7:
     def render_frame(floor_array, ceil_array, screen_array, tex_size, angle, player_pos, alt):
 
         sin, cos = np.sin(angle), np.cos(angle)
+        
 
         # iterating over the screen array
         for i in prange(WIDTH):
             new_alt = alt
-            for j in range(HALF_HEIGHT, HEIGHT):
+            for j in range(HORIZON_HEIGHT, HEIGHT):
                 x = HALF_WIDTH - i
-                y = j + FOCAL_LEN
-                z = j - HALF_HEIGHT + new_alt
+                y = (j - HORIZON_HEIGHT) + FOCAL_LEN
+                z = j - HORIZON_HEIGHT + new_alt
 
                 # rotation
                 px = (x * cos - y * sin)
@@ -83,12 +84,13 @@ class Mode7:
 
                 # fill screen array
                 screen_array[i, j] = floor_col
-                screen_array[i, -j] = ceil_col
+                #screen_array[i, HORIZON_HEIGHT - (j - HORIZON_HEIGHT)] = ceil_col
+                screen_array[i, HORIZON_HEIGHT + (-j + HORIZON_HEIGHT)] = ceil_col
+                #if j < HEIGHT // 4:
+                #    screen_array[i, j] = ceil_col
 
                 # next depth
                 new_alt += alt
-
-        
 
         return screen_array
 
